@@ -39,7 +39,18 @@ class Psphpcaptchawp_Admin {
 	 * @var      string    $version    The current version of this plugin.
 	 */
 	private $version;
-
+	
+	/**
+	 * The webpath to renderImage.php
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string    $urlRenderImage    The webpath to renderImage.php
+	 */
+	private $urlRenderImage;
+	
+	
+	
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -51,7 +62,9 @@ class Psphpcaptchawp_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		
+		$this->urlRenderImage = plugin_dir_url(__FILE__).'../public/renderimage.php';
+		
 	}
 
 	/**
@@ -119,7 +132,7 @@ class Psphpcaptchawp_Admin {
          *        Administration Menus: http://codex.wordpress.org/Administration_Menus
          *
          */
-        add_options_page( 'PS PHPCaptcha for Wordpress - Setup', 'PSPHPCaptchaWP', 'manage_options',
+        add_options_page( __('PS PHPCaptcha for Wordpress - Setup','psphpcaptchawp'), 'PSPHPCaptchaWP', 'manage_options',
             $this->plugin_name,
             array
             ($this, 'display_plugin_setup_page')
@@ -131,7 +144,8 @@ class Psphpcaptchawp_Admin {
         *  Documentation : https://codex.wordpress.org/Plugin_API/Filter_Reference/plugin_action_links_(plugin_file_name)
         */
         $settings_link = array(
-            '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_name ) . '">' . __('Settings', $this->plugin_name) . '</a>',
+            '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_name ) . '">' .
+            __('Settings', 'psphpcaptchawp') . '</a>',
         );
         return array_merge(  $settings_link, $links );
         
@@ -149,12 +163,13 @@ class Psphpcaptchawp_Admin {
     
     public function options_update() {
         register_setting($this->plugin_name, $this->plugin_name, array($this, 'validate'));
+
     }
     
     static public function getPresets() {
         $valid=array();
         $valid['stringlength']=6;
-        $valid['charstouse']='abcdefghkmnprstuvwxyz23456789';
+        $valid['charstouse']='abcdefghkmnpqrtuvwxyz23456789';
         $valid['strictlowercase']=1;
         $valid['bgcolor']="#000000";
         $valid['textcolor']="#ffffff";
@@ -164,76 +179,166 @@ class Psphpcaptchawp_Admin {
         $valid['fontsize']=25;
         $valid['numberoflines']=6;
         $valid['thicknessoflines']=2;
+        $valid['allowad']=0;
         return $valid;
     }
     
+    private function sanitize_color($valid, $input, $setting_title, $setting_errorid) {
+	    $validreturn = (isset($input) && !empty($input))
+		    ? sanitize_text_field($input) : $valid;
+	    if ( !empty($validreturn) && !preg_match( '/^#[a-f0-9]{6}$/i', $validreturn ) ) {
+		    add_settings_error(
+			    $setting_title,                     // Setting title
+			    $setting_errorid,            // Error ID
+			    sprintf(__('Please enter a valid hex value for %s, (#RRGGBB)','psphpcaptchawp'), $setting_title),
+			    //
+			    # Error
+			    'error'                         // Type of message
+		    );
+		    return $valid;
+	    }
+	    return $validreturn;
+    }
+	
+	private function sanitize_integer($valid, $input, $setting_title, $setting_errorid) {
+		$validreturn = (isset($input) && !empty($input))
+			? sanitize_text_field($input) : $valid;
+		if ( !empty($validreturn) && !preg_match( '/^[0-9]/i', $validreturn ) ) {
+			add_settings_error(
+				$setting_title,                     // Setting title
+				$setting_errorid,            // Error ID
+				sprintf(__('Please enter a valid integer value for %s','psphpcaptchawp'), $setting_title),     // Error
+				// message
+				'error'                         // Type of message
+			);
+			return $valid;
+		}
+		return $validreturn;
+	}
+	
+	private function sanitize_charstouse($valid, $input, $setting_title, $setting_errorid, $minlength, $sourceIfForm) {
+		if($sourceIfForm) {
+			if(strlen($input) < $minlength) {
+				add_settings_error(
+					$setting_title,                     // Setting title
+					$setting_errorid,            // Error ID
+					sprintf(__('Please enter a valid value for %s, at least %d chars long', 'psphpcaptchawp')
+						, $setting_title, $minlength), // Error message
+					'error'                         // Type of message
+				);
+				return $valid;
+			}
+			if ( !preg_match( '/^[a-zA-Z0-9]/i', $input )) {
+				add_settings_error(
+					$setting_title,                     // Setting title
+					$setting_errorid,            // Error ID
+					sprintf(__('Please enter a valid value for %s, at least %d chars long', 'psphpcaptchawp')
+						, $setting_title, $minlength), // Error message
+					'error'                         // Type of message
+				);
+				return $valid;
+			}
+			return $input;
+		} else {
+			return $valid;
+		}
+	}
+	
+	private function sanitize_boolean($valid, $input, $setting_title, $setting_errorid, $sourceIsForm) {
+        if($sourceIsForm) {
+            if(isset($input) && $input == "1") {
+                $validreturn = 1;
+            } else {
+                $validreturn = 0;
+            }
+        } else {
+            $validreturn = $valid;
+        }
+		if ( !empty($validreturn) && !preg_match( '/^[0-1]{1}$/i', $validreturn )) {
+			add_settings_error(
+				$setting_title,                     // Setting title
+				$setting_errorid,            // Error ID
+				sprintf(__('Please enter a valid value for %s, (on/off)','psphpcaptchawp'), $setting_title),
+				// Error
+				// Error message
+				'error'                         // Type of message
+			);
+			return $valid;
+		}
+		return $validreturn;
+	}
+
     public function validate($input) {
         // All checkboxes inputs
         $valid = $this::getPresets();
-    
+
+        $sourceIsForm = false;
+        if(isset($valid['stringlength'])) {
+            $sourceIsForm = true;
+        }
+	
+	    $valid['stringlength'] = $this->sanitize_integer($valid['stringlength'], $input['stringlength'],
+            __('Number of characters','psphpcaptchawp') , 'stringlength');
         
-        $valid['stringlength'] = (isset($input['stringlength']) && !empty($input['stringlength'])) ?
-            $input['stringlength'] : $valid['stringlength'];
+        $valid['charstouse'] = $this->sanitize_charstouse($valid['charstouse'], $input['charstouse'],
+            __('Characters allowed','psphpcaptchawp'), 'charstouse', 10, $sourceIsForm );
 
-        $valid['charstouse'] = (isset($input['charstouse']) && !empty($input['charstouse'])) ?
-            $input['charstouse'] : $valid['charstouse'];
-
-        $valid['strictlowercase'] = (isset($input['strictlowercase']) && !empty($input['strictlowercase']))
-            ? $input['strictlowercase'] : $valid['strictlowercase'];
+        $valid['strictlowercase'] = $this->sanitize_boolean($valid['strictlowercase'], $input['strictlowercase'],
+            __('Strict to lower case','psphpcaptchawp'), 'strictlowercase', $sourceIsForm);
         
         //bgcolor
-        $valid['bgcolor'] = (isset($input['bgcolor']) && !empty($input['bgcolor']))
-            ? sanitize_text_field($input['bgcolor']) : $valid['bgcolor'];
-        if ( !empty($valid['bgcolor']) && !preg_match( '/^#[a-f0-9]{6}$/i', $valid['bgcolor']  ) ) { // if user insert a HEX color with #
-            add_settings_error(
-                'bgcolor',                     // Setting title
-                'login_background_color_texterror',            // Error ID
-                'Please enter a valid hex value color',     // Error message
-                'error'                         // Type of message
-            );
-        }
+        $valid['bgcolor'] = $this->sanitize_color($valid['bgcolor'], $input['bgcolor'],
+            __('Background color','psphpcaptchawp'), 'background_color');
     
         //textcolor
-        $valid['textcolor'] = (isset($input['textcolor']) && !empty($input['textcolor']))
-            ? sanitize_text_field($input['textcolor']) : $valid['textcolor'];
-        if ( !empty($valid['textcolor']) && !preg_match( '/^#[a-f0-9]{6}$/i', $valid['textcolor']  ) ) { // if user insert a HEX color with #
-            add_settings_error(
-                'textcolor',                     // Setting title
-                'login_background_color_texterror',            // Error ID
-                'Please enter a valid hex value color',     // Error message
-                'error'                         // Type of message
-            );
-        }
+	    $valid['textcolor'] = $this->sanitize_color($valid['textcolor'], $input['textcolor'],
+            __('Text color','psphpcaptchawp'), 'text_color');
     
         //linecolor
-        $valid['linecolor'] = (isset($input['linecolor']) && !empty($input['linecolor']))
-            ? sanitize_text_field($input['linecolor']) : $valid['linecolor'];
-        if ( !empty($valid['linecolor']) && !preg_match( '/^#[a-f0-9]{6}$/i', $valid['linecolor']  ) ) { // if user insert a HEX color with #
-            add_settings_error(
-                'linecolor',                     // Setting title
-                'login_background_color_texterror',            // Error ID
-                'Please enter a valid hex value color',     // Error message
-                'error'                         // Type of message
-            );
-        }
+	    $valid['linecolor'] = $this->sanitize_color($valid['linecolor'], $input['linecolor'],
+            __('Line color','psphpcaptchawp'), 'line_color');
 
-        $valid['sizewidth'] = (isset($input['sizewidth']) && empty($input['sizewidth']))
-            ? $input['sizewidth'] : $valid['sizewidth'];
+        $valid['sizewidth'] = $this->sanitize_integer($valid['sizewidth'], $input['sizewidth'],
+	        __('Image width','psphpcaptchawp'), 'sizewidth');
         
-        $valid['sizeheight'] = (isset($input['sizeheight']) && empty($input['sizeheight']))
-            ? $input['sizeheight'] : $valid['sizeheight'];
+        $valid['sizeheight'] = $this->sanitize_integer($valid['sizeheight'], $input['sizeheight'],
+	        __('Image height','psphpcaptchawp'), 'sizeheight');
         
-        $valid['fontsize'] = (isset($input['fontsize']) && empty($input['fontsize']))
-            ? $input['fontsize'] : $valid['fontsize'];
+        $valid['fontsize'] = $this->sanitize_integer($valid['fontsize'], $input['fontsize'],
+	        __('Font size','psphpcaptchawp'), 'fontsize');
         
-        $valid['numberoflines'] = (isset($input['numberoflines']) && empty($input['numberoflines']))
-            ? $input['numberoflines'] : $valid['numberoflines'];
+        $valid['numberoflines'] = $this->sanitize_integer($valid['numberoflines'], $input['numberoflines'],
+	        __('Number of lines','psphpcaptchawp'), 'numberoflines');
         
-        $valid['thicknessoflines'] = (isset($input['thicknessoflines']) && empty($input['thicknessoflines']))
-            ? $input['thicknessoflines'] : $valid['thicknessoflines'];
-        
+        $valid['thicknessoflines'] = $this->sanitize_integer($valid['thicknessoflines'], $input['thicknessoflines'],
+	        __('Thickness of lines','psphpcaptchawp'), 'thicknessoflines');
+	    	
+        $valid['allowad'] = $this->sanitize_integer($valid['allowad'], $input['allowad'],
+	        __('Allow small advertisement below Captcha image','psphpcaptchawp'), 'allowad');
 
-        return $valid;
+	    //write setting into file for db-less access
+	    $file = __DIR__ ."/../config.php";
+	    $current='';
+	    $current .= "<?php\n";
+	    $current .= "//do not edit this file, gets overwritten by admin actions\n";
+	    $current .= "//created ".date("Y-m-d H:i:s O")."\n";
+	    $current .= '$stringlength='.$valid['stringlength'].";\n";
+	    $current .= '$charstouse=\''.$valid['charstouse']."';\n";
+	    $current .= '$strictlowercase='.($valid['strictlowercase'] == "1" ? "true":"false").";\n";
+	    $current .= '$bgcolor=\''.$valid['bgcolor']."';\n";
+	    $current .= '$textcolor=\''.$valid['textcolor']."';\n";
+	    $current .= '$linecolor=\''.$valid['linecolor']."';\n";
+	    $current .= '$sizewidth='.$valid['sizewidth'].";\n";
+	    $current .= '$sizeheight='.$valid['sizeheight'].";\n";
+	    $current .= '$fontsize='.$valid['fontsize'].";\n";
+	    $current .= '$numberoflines='.$valid['numberoflines'].";\n";
+	    $current .= '$thicknessoflines='.$valid['thicknessoflines'].";\n";
+	    $current .= '$allowad='.($valid['allowad'] == "1" ? "true":"false").";\n";
+	    $current .= "\n\n\n//END OF FILE\n";
+	    
+		file_put_contents($file, $current);
+	
+	    return $valid;
     }
 
 
