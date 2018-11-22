@@ -176,7 +176,7 @@ msgid "PS PHPCaptcha for Wordpress"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "https://github.com/pstimpel/ps-phpcaptcha-wp"
+msgid "https://github.com/pstimpel/psphpcaptchawp"
 msgstr ""
 
 #. Description of the plugin/theme

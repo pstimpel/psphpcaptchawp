@@ -115,7 +115,7 @@ class Psphpcaptchawp_Public {
 		
 		echo '<p><img src="'.plugin_dir_url(__FILE__).'renderimage.php" alt="PS PHPCaptcha WP" title="PS PHPCaptcha WP"/>';
 		if($this->config['allowad'] == "1") {
-			echo '<br><small><a href="https://github.com/pstimpel/ps-phpcaptcha-wp" target="_blank">PS PHPCaptcha for Wordpress</a></small>';
+			echo '<br><small><a href="https://github.com/pstimpel/psphpcaptchawp" target="_blank">PS PHPCaptcha for Wordpress</a></small>';
 		}
 		echo '</p>';
 	

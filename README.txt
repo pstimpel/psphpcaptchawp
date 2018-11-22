@@ -1,6 +1,6 @@
 === PS PHPCaptcha WP ===
 Contributors: (pstimpel)
-Donate link: https://wp.peters-webcorner.de
+Donate link: https://www.paypal.me/redzoneaction
 Tags: comments, spam, captcha, recaptcha-replacement
 Requires at least: 4.0.0
 Tested up to: 4.9.8
