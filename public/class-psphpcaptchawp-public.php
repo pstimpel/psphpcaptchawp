@@ -130,26 +130,36 @@ class Psphpcaptchawp_Public {
 	}
 	
 	function add_comment_with_captcha( $comment ) {
+		
+		$current_user = wp_get_current_user();
+		if (user_can( $current_user, 'administrator' )) {
 
-		if ( ! isset( $_SESSION['psphpcaptchawp_challenge'] ) ||
-		     ! isset( $_POST['captcha'] ) ||
-		     strlen( $_POST['captcha'] ) == 0 ) {
-			wp_die( __('Please enter the displayed text into the Captcha text field below the Captcha image',
-				'psphpcaptchawp') );
-		}
+			//loggedin admins, no captcha displayed, no check needed
+			
+			return $comment;
 
-		if($this->config['strictlowercase']==1) {
-			if ( strcmp( strtolower($_SESSION['psphpcaptchawp_challenge']), strtolower($_POST['captcha']) ) === 0 ) {
-				return $comment;
-			}
 		} else {
-			if ( strcmp( $_SESSION['psphpcaptchawp_challenge'], $_POST['captcha'] ) === 0 ) {
-				return $comment;
+			
+			if ( ! isset( $_SESSION['psphpcaptchawp_challenge'] ) || ! isset( $_POST['captcha'] ) || strlen( $_POST['captcha'] ) == 0 ) {
+				wp_die( __( 'Please enter the displayed text into the Captcha text field below the Captcha image',
+					'psphpcaptchawp' ) );
 			}
+			
+			if ( $this->config['strictlowercase'] == 1 ) {
+				if ( strcmp( strtolower( $_SESSION['psphpcaptchawp_challenge'] ),
+						strtolower( $_POST['captcha'] ) ) === 0 ) {
+					return $comment;
+				}
+			} else {
+				if ( strcmp( $_SESSION['psphpcaptchawp_challenge'], $_POST['captcha'] ) === 0 ) {
+					return $comment;
+				}
+			}
+			
+			wp_die( __( 'Captcha solved wrong, please try again!', 'psphpcaptchawp' ) );
+			
 		}
-
-		wp_die( __('Captcha solved wrong, please try again!','psphpcaptchawp') );
-	
+		
 	}
 
 	/**
