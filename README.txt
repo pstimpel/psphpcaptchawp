@@ -13,12 +13,12 @@ Simple PHP-GD based captcha to replace tracking prone systems like Google recapt
 == Description ==
 
 If you are keen to provide your users kind of a tracking free environment, you would have to remove
-Google Recpatcha and other cloud based Captcha solutions from your Wordpress installation.
+Google Recaptcha and other cloud based Captcha solutions from your Wordpress installation.
 
-PS PHPCaptcha WP does not use any remote resources. This make it fully GDPR compliant without any need to mention it
+PS PHPCaptcha WP does not use any remote resources. This makes it fully GDPR compliant without any need to mention it
 in your privacy policy.
 
-To generate the image this plugin does not need use the Wordpress database and therefore IO of the database is very low.
+To generate the image this plugin does not need to use the Wordpress database and therefore IO of the database is very low.
 This very important if you run a site with high traffic.
 
 System requirements:
@@ -26,6 +26,8 @@ System requirements:
 * PHP5 or PHP7 installed
 * PHP-GD installed and activated
 * uses PHP sessions
+
+For setup of the Plugin just follow these 3 easy steps.
 
 == Installation ==
 
@@ -35,7 +37,10 @@ System requirements:
 
 == Frequently Asked Questions ==
 
-* none
+= I followed your instructions, but do not see the Captcha image in the comment form =
+
+Probably you are logged into your wordpress installation having admin rights. In this case, the Captcha does not show.
+Of course, commenting works without solving the Captcha in this case.
 
 == Screenshots ==
 
