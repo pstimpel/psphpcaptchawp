@@ -16,7 +16,7 @@
  * Plugin Name:       PS PHPCaptcha for Wordpress
  * Plugin URI:        https://github.com/pstimpel/psphpcaptchawp
  * Description:       Dislike feeding remote tracking enterprises like Google with data just for verifying users? Well, here you go with your own captcha...
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            Peter Stimpel
  * Author URI:        https://wp.peters-webcorner.de
  * License:           GPL-2.0+
