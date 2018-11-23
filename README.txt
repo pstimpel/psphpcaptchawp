@@ -52,7 +52,11 @@ Of course, commenting works without solving the Captcha in this case.
 
 == Changelog ==
 
-= 1.0 =
+= 1.1.0 =
+* added multisite support
+* asset files had wrong mimetype
+
+= 1.0.0 =
 * initial version
 * Languages: en, de
 
