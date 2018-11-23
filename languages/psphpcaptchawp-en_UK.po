@@ -1,0 +1,211 @@
+# Copyright (C) 2018 PS PHPCaptcha for Wordpress
+# This file is distributed under the same license as the PS PHPCaptcha for Wordpress package.
+msgid ""
+msgstr ""
+"Project-Id-Version: PS PHPCaptcha for Wordpress 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/psphpcaptchawp\n"
+"POT-Creation-Date: 2018-11-23 15:16:27+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2018-11-23 17:19+0100\n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en_US\n"
+
+#: admin/class-psphpcaptchawp-admin.php:184
+msgid "PS PHPCaptcha for Wordpress - Setup"
+msgstr "PS PHPCaptcha for Wordpress - Setup"
+
+#: admin/class-psphpcaptchawp-admin.php:197
+msgid "Settings"
+msgstr "Settings"
+
+#: admin/class-psphpcaptchawp-admin.php:242
+msgid "Please enter a valid hex value for %s, (#RRGGBB)"
+msgstr "Please enter a valid hex value for %s, (#RRGGBB)"
+
+#: admin/class-psphpcaptchawp-admin.php:259
+msgid "Please enter a valid integer value for %s"
+msgstr "Please enter a valid integer value for %s"
+
+#: admin/class-psphpcaptchawp-admin.php:274
+#: admin/class-psphpcaptchawp-admin.php:284
+msgid "Please enter a valid value for %s, at least %d chars long"
+msgstr "Please enter a valid value for %s, at least %d chars long"
+
+#: admin/class-psphpcaptchawp-admin.php:310
+msgid "Please enter a valid value for %s, (on/off)"
+msgstr "Please enter a valid value for %s, (on/off)"
+
+#: admin/class-psphpcaptchawp-admin.php:330
+#: admin/partials/psphpcaptchawp-admin-display.php:73
+#: admin/partials/psphpcaptchawp-admin-display.php:78
+msgid "Number of characters"
+msgstr "Number of characters"
+
+#: admin/class-psphpcaptchawp-admin.php:333
+#: admin/partials/psphpcaptchawp-admin-display.php:83
+#: admin/partials/psphpcaptchawp-admin-display.php:88
+msgid "Characters allowed"
+msgstr "Characters allowed"
+
+#: admin/class-psphpcaptchawp-admin.php:336
+msgid "Strict to lower case"
+msgstr "Strict to lower case"
+
+#: admin/class-psphpcaptchawp-admin.php:340
+msgid "Background color"
+msgstr "Background color"
+
+#: admin/class-psphpcaptchawp-admin.php:344
+msgid "Text color"
+msgstr "Text color"
+
+#: admin/class-psphpcaptchawp-admin.php:348
+msgid "Line color"
+msgstr "Line color"
+
+#: admin/class-psphpcaptchawp-admin.php:351
+#: admin/partials/psphpcaptchawp-admin-display.php:136
+#: admin/partials/psphpcaptchawp-admin-display.php:141
+msgid "Image width"
+msgstr "Image width"
+
+#: admin/class-psphpcaptchawp-admin.php:354
+#: admin/partials/psphpcaptchawp-admin-display.php:146
+#: admin/partials/psphpcaptchawp-admin-display.php:151
+msgid "Image height"
+msgstr "Image height"
+
+#: admin/class-psphpcaptchawp-admin.php:357
+#: admin/partials/psphpcaptchawp-admin-display.php:156
+#: admin/partials/psphpcaptchawp-admin-display.php:161
+msgid "Font size"
+msgstr "Font size"
+
+#: admin/class-psphpcaptchawp-admin.php:360
+#: admin/partials/psphpcaptchawp-admin-display.php:168
+#: admin/partials/psphpcaptchawp-admin-display.php:173
+msgid "Number of lines"
+msgstr "Number of lines"
+
+#: admin/class-psphpcaptchawp-admin.php:363
+#: admin/partials/psphpcaptchawp-admin-display.php:178
+#: admin/partials/psphpcaptchawp-admin-display.php:183
+msgid "Thickness of lines"
+msgstr "Thickness of lines"
+
+#: admin/class-psphpcaptchawp-admin.php:366
+#: admin/partials/psphpcaptchawp-admin-display.php:189
+#: admin/partials/psphpcaptchawp-admin-display.php:192
+msgid "Allow small advertisement below Captcha image"
+msgstr "Allow small advertisement below Captcha image"
+
+#: admin/partials/psphpcaptchawp-admin-display.php:57
+msgid ""
+"This is a multisite installation, each site has its own settings. Blog-Id: %s"
+msgstr ""
+"This is a multisite installation, each site has its own settings. Blog-Id: %s"
+
+#: admin/partials/psphpcaptchawp-admin-display.php:64
+msgid "This is a singlesite installation, turned multisite features off."
+msgstr "This is a singlesite installation, turned multisite features off."
+
+#: admin/partials/psphpcaptchawp-admin-display.php:71
+msgid "Captcha content"
+msgstr "Captcha content"
+
+#: admin/partials/psphpcaptchawp-admin-display.php:93
+#: admin/partials/psphpcaptchawp-admin-display.php:96
+msgid "Strict lower case"
+msgstr "Strict lower case"
+
+#: admin/partials/psphpcaptchawp-admin-display.php:101
+msgid "Captcha colors"
+msgstr "Captcha colors"
+
+#: admin/partials/psphpcaptchawp-admin-display.php:103
+#: admin/partials/psphpcaptchawp-admin-display.php:104
+msgid "Background Color"
+msgstr "Background Color"
+
+#: admin/partials/psphpcaptchawp-admin-display.php:114
+#: admin/partials/psphpcaptchawp-admin-display.php:115
+msgid "Text Color"
+msgstr "Text Color"
+
+#: admin/partials/psphpcaptchawp-admin-display.php:124
+#: admin/partials/psphpcaptchawp-admin-display.php:125
+msgid "Line Color"
+msgstr "Line Color"
+
+#: admin/partials/psphpcaptchawp-admin-display.php:133
+msgid "Captcha appearance"
+msgstr "Captcha appearance"
+
+#: admin/partials/psphpcaptchawp-admin-display.php:165
+msgid "OCR confusion options"
+msgstr "OCR confusion options"
+
+#: admin/partials/psphpcaptchawp-admin-display.php:187
+msgid "Allow advertisment for Plugin"
+msgstr "Allow advertisment for Plugin"
+
+#: admin/partials/psphpcaptchawp-admin-display.php:200
+msgid "Save all changes"
+msgstr "Save all changes"
+
+#: admin/partials/psphpcaptchawp-admin-display.php:206
+msgid "Example captcha"
+msgstr "Example captcha"
+
+#: admin/partials/psphpcaptchawp-admin-display.php:212
+msgid "Reset settings"
+msgstr "Reset settings"
+
+#: admin/partials/psphpcaptchawp-admin-display.php:258
+msgid "Set to defaults"
+msgstr "Set to defaults"
+
+#: public/class-psphpcaptchawp-public.php:153
+msgid "Enter text displayed at Captcha image"
+msgstr "Enter text displayed at Captcha image"
+
+#: public/class-psphpcaptchawp-public.php:173
+msgid ""
+"Please enter the displayed text into the Captcha text field below the "
+"Captcha image"
+msgstr ""
+"Please enter the displayed text into the Captcha text field below the "
+"Captcha image"
+
+#: public/class-psphpcaptchawp-public.php:188
+msgid "Captcha solved wrong, please try again!"
+msgstr "Captcha solved wrong, please try again!"
+
+#. Plugin Name of the plugin/theme
+msgid "PS PHPCaptcha for Wordpress"
+msgstr "PS PHPCaptcha for Wordpress"
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/pstimpel/psphpcaptchawp"
+msgstr "https://github.com/pstimpel/psphpcaptchawp"
+
+#. Description of the plugin/theme
+msgid ""
+"Dislike feeding remote tracking enterprises like Google with data just for "
+"verifying users? Well, here you go with your own captcha..."
+msgstr ""
+"Dislike feeding remote tracking enterprises like Google with data just for "
+"verifying users? Well, here you go with your own captcha..."
+
+#. Author of the plugin/theme
+msgid "Peter Stimpel"
+msgstr "Peter Stimpel"
+
+#. Author URI of the plugin/theme
+msgid "https://wp.peters-webcorner.de"
+msgstr "https://wp.peters-webcorner.de"
