@@ -1,8 +1,9 @@
 === PS PHPCaptcha WP ===
-Contributors: (pstimpel)
+Contributors: pstimpel
 Donate link: https://www.paypal.me/redzoneaction
 Tags: comments, spam, captcha, recaptcha-replacement
 Requires at least: 4.0.0
+Requires PHP: 5.6
 Tested up to: 4.9.8
 Stable tag: trunk
 License: GPLv2 or later
