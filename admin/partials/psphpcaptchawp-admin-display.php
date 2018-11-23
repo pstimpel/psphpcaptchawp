@@ -42,11 +42,32 @@
         $thicknessoflines = $options['thicknessoflines'];
         $allowad = $options['allowad'];
         
+        $multisite = Psphpcaptchawp_Admin::isMultisite();
+        $blogId = Psphpcaptchawp_Admin::getBlogId();
+        
         settings_fields( $this->plugin_name );
         do_settings_sections( $this->plugin_name );
         ?>
 
-
+        <?php
+        if($multisite == true) {
+	        
+	        echo '<p><strong>';
+	        printf(
+	                __('This is a multisite installation, each site has its own settings. Blog-Id: %s', 'psphpcaptchawp'),
+                    $blogId);
+            echo '</strong></p>';
+	        
+        } else {
+	
+	        echo '<p><strong>';
+	        _e('This is a singlesite installation, turned multisite features off.', 'psphpcaptchawp');
+	        echo '</strong></p>';
+	
+	        
+        }
+        ?>
+        
         <h4><?php echo esc_attr_e('Captcha content','psphpcaptchawp'); ?></h4>
         <fieldset>
             <legend class="screen-reader-text"><span><?php _e('Number of characters', 'psphpcaptchawp');

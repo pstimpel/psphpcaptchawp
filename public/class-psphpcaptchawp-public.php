@@ -54,6 +54,25 @@ class Psphpcaptchawp_Public {
 	
 	
 	/**
+	 * is true, if this is a multisite wordpress installation.
+	 *
+	 * @since    1.1.0
+	 * @access   private
+	 * @var      bool    $isMultisite   is this a multisite installation
+	 */
+	private $isMultisite;
+	
+	/**
+	 * keeps blogid on multisite installations, is empty on singlesite.
+	 *
+	 * @since    1.1.0
+	 * @access   private
+	 * @var      string    $blogId   the blog-id
+	 */
+	private $blogId;
+	
+	
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -72,8 +91,18 @@ class Psphpcaptchawp_Public {
 		
 		add_action('init',array($this, 'register_session'));
 		
-		$this->config = Psphpcaptchawp_Public::getConfig();
 		
+		$this->blogId='';
+		
+		if ( is_multisite() ) {
+			$this->isMultisite = true;
+			$this->blogId = Psphpcaptchawp_Admin::getBlogId();
+		} else {
+			$this->isMultisite = false;
+		}
+
+		$this->config = Psphpcaptchawp_Public::getConfig($this->blogId);
+
 	}
 	
 	function register_session(){
@@ -85,14 +114,14 @@ class Psphpcaptchawp_Public {
 		$_SESSION['psphpcaptchawp_challenge'] = $value;
 	}
 	
-	public static function getConfig() {
+	public static function getConfig($blogId = '') {
 		
 		$preset = Psphpcaptchawp_Admin::getPresets();
 		
 		$preset['strictlowercase'] = ($preset['strictlowercase'] == 1) ? true:false;
 		
-		if(file_exists(__DIR__ . "/../config.php")) {
-			require_once __DIR__ . "/../config.php";
+		if(file_exists(__DIR__ . "/../config".$blogId.".php")) {
+			require_once __DIR__ . "/../config".$blogId.".php";
 			$preset['stringlength']=$stringlength;
 			$preset['charstouse']=$charstouse;
 			$preset['strictlowercase']=$strictlowercase;
@@ -113,7 +142,7 @@ class Psphpcaptchawp_Public {
 	
 	function add_captcha_form() {
 		
-		echo '<p><img src="'.plugin_dir_url(__FILE__).'renderimage.php" alt="PS PHPCaptcha WP" title="PS PHPCaptcha WP"/>';
+		echo '<p><img src="'.plugin_dir_url(__FILE__).'renderimage.php?blogid='.$this->blogId.'" alt="PS PHPCaptcha WP" title="PS PHPCaptcha WP"/>';
 		if($this->config['allowad'] == "1") {
 			echo '<br><small><a href="https://github.com/pstimpel/psphpcaptchawp" target="_blank">PS PHPCaptcha for Wordpress</a></small>';
 		}

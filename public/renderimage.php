@@ -23,7 +23,12 @@ class renderimage {
 		
 		session_start();
 		
-		$preset = Psphpcaptchawp_Public::getConfig();
+		$blogId = '';
+		if(isset($_GET['blogid']) && !empty($_GET['blogid'])) {
+			$blogId = $_GET['blogid'];
+		}
+		
+		$preset = Psphpcaptchawp_Public::getConfig($blogId);
 
 		$phrase = $this->getRandomString($preset);
 		
