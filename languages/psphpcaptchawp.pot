@@ -25,12 +25,12 @@ msgid "Please enter a valid hex value for %s, (#RRGGBB)"
 msgstr ""
 
 #: admin/class-psphpcaptchawp-admin.php:259
-msgid "Please enter a valid integer value for %s"
+msgid "Please enter a valid integer value for %s, from %d to %d"
 msgstr ""
 
 #: admin/class-psphpcaptchawp-admin.php:274
 #: admin/class-psphpcaptchawp-admin.php:284
-msgid "Please enter a valid value for %s, at least %d chars long"
+msgid "Please enter a valid value for %s, from %d to %d chars long"
 msgstr ""
 
 #: admin/class-psphpcaptchawp-admin.php:310

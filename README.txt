@@ -52,6 +52,9 @@ Of course, commenting works without solving the Captcha in this case.
 
 == Changelog ==
 
+= 1.2.0 =
+* better sanitizing of input values - reported by info@metamorfosec.com at 2019-01-19
+
 = 1.1.0 =
 * added multisite support
 * asset files had wrong mimetype

@@ -122,18 +122,54 @@ class Psphpcaptchawp_Public {
 		
 		if(file_exists(__DIR__ . "/../config".$blogId.".php")) {
 			require_once __DIR__ . "/../config".$blogId.".php";
-			$preset['stringlength']=$stringlength;
-			$preset['charstouse']=$charstouse;
-			$preset['strictlowercase']=$strictlowercase;
+			
+			if($stringlength >= Psphpcaptchawp_Admin::$MinStringLength &&
+			   $stringlength <= Psphpcaptchawp_Admin::$MaxStringLength) {
+				$preset['stringlength'] = $stringlength;
+			}
+			
+			if(strlen($charstouse) >= Psphpcaptchawp_Admin::$MinCharsToUse &&
+			   strlen($charstouse) <= Psphpcaptchawp_Admin::$MaxCharsToUse) {
+				$preset['charstouse'] = $charstouse;
+			}
+			
+			if(is_bool($stringlength)) {
+				$preset['strictlowercase'] = $strictlowercase;
+			}
+			
+			//no sanitizing on wrong put config, needs some more work
 			$preset['bgcolor']=$bgcolor;
 			$preset['textcolor']=$textcolor;
 			$preset['linecolor']=$linecolor;
-			$preset['sizewidth']=$sizewidth;
-			$preset['sizeheight']=$sizeheight;
-			$preset['fontsize']=$fontsize;
-			$preset['numberoflines']=$numberoflines;
-			$preset['thicknessoflines']=$thicknessoflines;
-			$preset['allowad']=$allowad;
+			
+			if($sizewidth >= Psphpcaptchawp_Admin::$MinSizeWidth &&
+			   $sizewidth <= Psphpcaptchawp_Admin::$MaxSizeWidth) {
+				$preset['sizewidth'] = $sizewidth;
+			}
+			
+			if($sizeheight >= Psphpcaptchawp_Admin::$MinSizeHeight &&
+			   $sizeheight <= Psphpcaptchawp_Admin::$MaxSizeHeight) {
+				$preset['sizeheight'] = $sizeheight;
+			}
+			
+			if($fontsize >= Psphpcaptchawp_Admin::$MinFontSize &&
+			   $fontsize <= Psphpcaptchawp_Admin::$MaxFontSize) {
+				$preset['fontsize'] = $fontsize;
+			}
+			
+			if($numberoflines >= Psphpcaptchawp_Admin::$MinNumberOfLines &&
+			   $numberoflines <= Psphpcaptchawp_Admin::$MaxNumberOfLines) {
+				$preset['numberoflines'] = $numberoflines;
+			}
+			
+			if($thicknessoflines >= Psphpcaptchawp_Admin::$MinThicknessOfLines &&
+			   $thicknessoflines <= Psphpcaptchawp_Admin::$MaxThicknessOfLines) {
+				$preset['thicknessoflines'] = $thicknessoflines;
+			}
+			
+			if(is_bool($allowad)) {
+				$preset['allowad'] = $allowad;
+			}
 			
 		}
 		

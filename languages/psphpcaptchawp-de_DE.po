@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: PS PHPCaptcha for Wordpress 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/psphpcaptchawp\n"
 "POT-Creation-Date: 2018-11-23 15:16:27+00:00\n"
-"PO-Revision-Date: 2018-11-23 16:18+0100\n"
+"PO-Revision-Date: 2019-01-20 12:24+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -28,13 +28,13 @@ msgid "Please enter a valid hex value for %s, (#RRGGBB)"
 msgstr "Bitte Hexadezimalwert eingeben für %s, (#RRGGBB)"
 
 #: admin/class-psphpcaptchawp-admin.php:259
-msgid "Please enter a valid integer value for %s"
-msgstr "Bitte Ganzzahlwert eingeben für %s"
+msgid "Please enter a valid integer value for %s, from %d to %d"
+msgstr "Bitte Ganzzahlwert eingeben für %s, von %d bis %d"
 
 #: admin/class-psphpcaptchawp-admin.php:274
 #: admin/class-psphpcaptchawp-admin.php:284
-msgid "Please enter a valid value for %s, at least %d chars long"
-msgstr "Bitte Wert eingeben für %s, mindestens %d Zeichen lang"
+msgid "Please enter a valid value for %s, from %d to %d chars long"
+msgstr "Bitte Wert eingeben für %s, von %d bis %d  Zeichen lang"
 
 #: admin/class-psphpcaptchawp-admin.php:310
 msgid "Please enter a valid value for %s, (on/off)"
@@ -213,3 +213,10 @@ msgstr "Peter Stimpel"
 #. Author URI of the plugin/theme
 msgid "https://wp.peters-webcorner.de"
 msgstr "https://wp.peters-webcorner.de"
+
+#~ msgid ""
+#~ "Please enter a valid integer value for %s, greater than %d and lesser "
+#~ "than %d"
+#~ msgstr ""
+#~ "Bitte Wert eingeben für %s, mindestens %d Zeichen lang, mindestens %d und "
+#~ "maximal %d"

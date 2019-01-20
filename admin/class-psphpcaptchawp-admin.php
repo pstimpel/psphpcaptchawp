@@ -95,6 +95,27 @@ class Psphpcaptchawp_Admin {
 		
 	}
 	
+	public static $MinStringLength = 2;
+	public static $MaxStringLength = 50;
+	
+	public static $MinSizeWidth = 10;
+	public static $MaxSizeWidth = 1000;
+	
+	public static $MinSizeHeight = 5;
+	public static $MaxSizeHeight = 500;
+	
+	public static $MinFontSize = 5;
+	public static $MaxFontSize = 500;
+	
+	public static $MinNumberOfLines = 0;
+	public static $MaxNumberOfLines = 100;
+	
+	public static $MinThicknessOfLines = 0;
+	public static $MaxThicknessOfLines = 20;
+	
+	public static $MinCharsToUse = 10;
+	public static $MaxCharsToUse = 100;
+
 	public static function getBlogId() {
 		if(is_multisite()) {
 			return get_current_blog_id();
@@ -249,14 +270,27 @@ class Psphpcaptchawp_Admin {
 	    return $validreturn;
     }
 	
-	private function sanitize_integer($valid, $input, $setting_title, $setting_errorid) {
+	private function sanitize_integer($valid, $input, $setting_title, $setting_errorid, $minRequiredSize,
+		$maxAllowedSize) {
 		$validreturn = (isset($input) && !empty($input))
 			? sanitize_text_field($input) : $valid;
 		if ( !empty($validreturn) && !preg_match( '/^[0-9]/i', $validreturn ) ) {
 			add_settings_error(
 				$setting_title,                     // Setting title
 				$setting_errorid,            // Error ID
-				sprintf(__('Please enter a valid integer value for %s','psphpcaptchawp'), $setting_title),     // Error
+				sprintf(__('Please enter a valid integer value for %s, from %d to %d','psphpcaptchawp'),
+					$setting_title, $minRequiredSize, $maxAllowedSize),   		//Error
+				// message
+				'error'                         // Type of message
+			);
+			return $valid;
+		}
+		if($validreturn > $maxAllowedSize || $validreturn < $minRequiredSize) {
+			add_settings_error(
+				$setting_title,                     // Setting title
+				$setting_errorid,            // Error ID
+				sprintf(__('Please enter a valid integer value for %s, from %d to %d','psphpcaptchawp'),
+					$setting_title, $minRequiredSize, $maxAllowedSize),   		//Error
 				// message
 				'error'                         // Type of message
 			);
@@ -265,14 +299,15 @@ class Psphpcaptchawp_Admin {
 		return $validreturn;
 	}
 	
-	private function sanitize_charstouse($valid, $input, $setting_title, $setting_errorid, $minlength, $sourceIfForm) {
+	private function sanitize_charstouse($valid, $input, $setting_title, $setting_errorid, $minlength, $maxlength,
+		$sourceIfForm) {
 		if($sourceIfForm) {
-			if(strlen($input) < $minlength) {
+			if(strlen($input) < $minlength || strlen($input) > $maxlength) {
 				add_settings_error(
 					$setting_title,                     // Setting title
 					$setting_errorid,            // Error ID
-					sprintf(__('Please enter a valid value for %s, at least %d chars long', 'psphpcaptchawp')
-						, $setting_title, $minlength), // Error message
+					sprintf(__('Please enter a valid value for %s, from %d to %d chars long', 'psphpcaptchawp')
+						, $setting_title, $minlength, $maxlength), // Error message
 					'error'                         // Type of message
 				);
 				return $valid;
@@ -281,8 +316,8 @@ class Psphpcaptchawp_Admin {
 				add_settings_error(
 					$setting_title,                     // Setting title
 					$setting_errorid,            // Error ID
-					sprintf(__('Please enter a valid value for %s, at least %d chars long', 'psphpcaptchawp')
-						, $setting_title, $minlength), // Error message
+					sprintf(__('Please enter a valid value for %s, from %d to %d chars long', 'psphpcaptchawp')
+						, $setting_title, $minlength, $maxlength), // Error message
 					'error'                         // Type of message
 				);
 				return $valid;
@@ -327,10 +362,13 @@ class Psphpcaptchawp_Admin {
         }
 	
 	    $valid['stringlength'] = $this->sanitize_integer($valid['stringlength'], $input['stringlength'],
-            __('Number of characters','psphpcaptchawp') , 'stringlength');
+            __('Number of characters','psphpcaptchawp') , 'stringlength',
+		    Psphpcaptchawp_Admin::$MinStringLength, Psphpcaptchawp_Admin::$MaxStringLength);
         
         $valid['charstouse'] = $this->sanitize_charstouse($valid['charstouse'], $input['charstouse'],
-            __('Characters allowed','psphpcaptchawp'), 'charstouse', 10, $sourceIsForm );
+            __('Characters allowed','psphpcaptchawp'), 'charstouse', Psphpcaptchawp_Admin::$MinCharsToUse,
+	        Psphpcaptchawp_Admin::$MaxCharsToUse,
+	        $sourceIsForm );
 
         $valid['strictlowercase'] = $this->sanitize_boolean($valid['strictlowercase'], $input['strictlowercase'],
             __('Strict to lower case','psphpcaptchawp'), 'strictlowercase', $sourceIsForm);
@@ -348,22 +386,27 @@ class Psphpcaptchawp_Admin {
             __('Line color','psphpcaptchawp'), 'line_color');
 
         $valid['sizewidth'] = $this->sanitize_integer($valid['sizewidth'], $input['sizewidth'],
-	        __('Image width','psphpcaptchawp'), 'sizewidth');
+	        __('Image width','psphpcaptchawp'), 'sizewidth', Psphpcaptchawp_Admin::$MinSizeWidth,
+	        Psphpcaptchawp_Admin::$MaxSizeWidth);
         
         $valid['sizeheight'] = $this->sanitize_integer($valid['sizeheight'], $input['sizeheight'],
-	        __('Image height','psphpcaptchawp'), 'sizeheight');
+	        __('Image height','psphpcaptchawp'), 'sizeheight', Psphpcaptchawp_Admin::$MinSizeHeight,
+	        Psphpcaptchawp_Admin::$MaxSizeHeight);
         
         $valid['fontsize'] = $this->sanitize_integer($valid['fontsize'], $input['fontsize'],
-	        __('Font size','psphpcaptchawp'), 'fontsize');
+	        __('Font size','psphpcaptchawp'), 'fontsize', Psphpcaptchawp_Admin::$MinFontSize,
+	        Psphpcaptchawp_Admin::$MaxFontSize);
         
         $valid['numberoflines'] = $this->sanitize_integer($valid['numberoflines'], $input['numberoflines'],
-	        __('Number of lines','psphpcaptchawp'), 'numberoflines');
+	        __('Number of lines','psphpcaptchawp'), 'numberoflines', Psphpcaptchawp_Admin::$MinNumberOfLines,
+	        Psphpcaptchawp_Admin::$MaxNumberOfLines);
         
         $valid['thicknessoflines'] = $this->sanitize_integer($valid['thicknessoflines'], $input['thicknessoflines'],
-	        __('Thickness of lines','psphpcaptchawp'), 'thicknessoflines');
+	        __('Thickness of lines','psphpcaptchawp'), 'thicknessoflines',
+	        Psphpcaptchawp_Admin::$MinThicknessOfLines, Psphpcaptchawp_Admin::$MaxThicknessOfLines);
 	    	
         $valid['allowad'] = $this->sanitize_integer($valid['allowad'], $input['allowad'],
-	        __('Allow small advertisement below Captcha image','psphpcaptchawp'), 'allowad');
+	        __('Allow small advertisement below Captcha image','psphpcaptchawp'), 'allowad',0,1);
 
 	    //write setting into file for db-less access
 	    $file = __DIR__ ."/../config".$this->blogId.".php";
